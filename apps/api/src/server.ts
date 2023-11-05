@@ -1,20 +1,24 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import dotenv from "dotenv";
+import userRouter from "./routes/userRoutes";
+
+dotenv.config();
 
 export const createServer = () => {
 	const app = express();
 
 	/**
-	 *  Boilerplate middleware
+	 *  Boilerplate
 	 */
-	// Logging
+	//Logger
 	const morganMode = process.env.NODE_ENV === "production" ? "combined" : "dev";
 	app.use(morgan(morganMode));
-	// Body parsing
+	// Parsing
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json());
-	// Cors
+	// Cors (currently only allows one)
 	const corsOrigins =
 		process.env.NODE_ENV === "production"
 			? {
@@ -22,20 +26,22 @@ export const createServer = () => {
 			  }
 			: undefined;
 	app.use(cors(corsOrigins));
-	// Hide powered by express (security)
+	// Hide server info (security)
 	app.disable("x-powered-by");
-	// Hello world (name)
-	app.get("/message/:name", (req, res) => {
-		return res.json({ message: `hello ${req.params.name}` });
-	});
-	// Health check
+	// Health check for testing
 	app.get("/healthz", (req, res) => {
 		return res.json({ ok: true });
 	});
+	// Hello world (name) for testing
+	app.get("/message/:name", (req, res) => {
+		return res.json({ message: `hello ${req.params.name}` });
+	});
 
 	/**
-	 *  Boilerplate middleware
+	 *  Routes
 	 */
+
+	app.use("/api/users", userRouter);
 
 	return app;
 };
