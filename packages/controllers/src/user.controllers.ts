@@ -2,13 +2,11 @@ import { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 
 // @desc    Register a user
-// route:   POST /api/users
+// @route:   POST /api/users
 // @access  Public
-const registerUser = expressAsyncHandler(
-	async (req: Request, res: Response) => {
-		res.status(200).json({ message: "Auth User" });
-	}
-);
+const registerUser = async () => {
+	return { message: "Auth User!!" };
+};
 
 // @desc    Authenticate a user and get token
 // route    POST /api/users/auth

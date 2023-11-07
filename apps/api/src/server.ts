@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
-import userRouter from "./routes/userRoutes";
+import userRouter from "./routes/user.routes";
 
 dotenv.config();
 
